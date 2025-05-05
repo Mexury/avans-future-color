@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <script type="module" src="/js/main.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form id="create-ingredient">
+        <label for="minMixingTimeMs">
+            Minimale mengtijd in milliseconden
+            <input type="number" name="minMixingTimeMs" id="minMixingTimeMs" value="0" min="0" step="1">
+        </label>
+        <label for="mixingSpeed">
+            Mengsnelheid
+            <input type="number" name="mixingSpeed" id="mixingSpeed" value="1" min="1" step=".1">
+        </label>
+        <div class="input-group">
+            <label for="colorspace">
+                Welk kleursysteem?
+                <select name="colorspace" id="colorspace">
+                    <option value="rgb" checked>RGB</option>
+                    <option value="hsl">HSL</option>
+                </select>
+            </label>
+            <label for="texture">
+                Welk textuur (structuur)?
+                <select name="texture" id="texture">
+                    <option value="grainy" checked>Korrelig</option>
+                    <option value="coarse_grainy">Grof korrelig</option>
+                    <option value="smooth">Glad</option>
+                    <option value="viscous">Slijmerig</option>
+                </select>
+            </label>
+        </div>
+        <div class="input-group" id="rgbInputs">
+            <label for="red">
+                Rood
+                <input type="number" name="red" id="red" value="255" min="0" step="1" max="255">
+            </label>
+            <label for="green">
+                Groen
+                <input type="number" name="green" id="green" value="0" min="0" step="1" max="255">
+            </label>
+            <label for="blue">
+                Blauw
+                <input type="number" name="blue" id="blue" value="0" min="0" step="1" max="255">
+            </label>
+        </div>
+        <div class="input-group" id="hslInputs">
+            <label for="hue">
+                Hue
+                <input type="number" name="hue" id="hue" value="0" min="0" step="1" max="360">
+            </label>
+            <label for="saturation">
+                Saturation
+                <input type="number" name="saturation" id="saturation" value="100" min="0" step="1" max="100">
+            </label>
+            <label for="lightness">
+                Lightness
+                <input type="number" name="lightness" id="lightness" value="100" min="0" step="1" max="100">
+            </label>
+        </div>
+
+        <button type="submit">Create</button>
+    </form>
+
+    <div id="list-ingredients">
+
+    </div>
+</body>
+</html>
