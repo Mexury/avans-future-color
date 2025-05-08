@@ -1,23 +1,24 @@
 'use strict';
 
-import Ingredient from './inc/Ingredient.js';
-customElements.define('x-ingredient', Ingredient);
+import Bucket from '../components/x-bucket/index.js';
+import Ingredient from '../components/x-ingredient/index.js';
+import View from '../components/x-view/index.js';
+import { RGBColor, HSLColor } from './inc/Color.js';
 
 const forms = {
     INGREDIENT: document.querySelector('form#create-ingredient')
-}
-const lists = {
-    INGREDIENTS: document.querySelector('#list-ingredients') 
-}
+};
+export const lists = {
+    INGREDIENTS: document.getElementById('list-ingredients'),
+    BUCKETS: document.getElementById('list-buckets'),
+    MIXED_BUCKETS: document.getElementById('list-mixed-buckets'),
+};
 
 Object.values(forms).forEach(form => {
     if (form instanceof HTMLFormElement) {
-        form.addEventListener('submit', e => e.preventDefault())
+        form.addEventListener('submit', e => e.preventDefault());
     }
-})
-
-/** @type {Map<Ingredient, HTMLElement>} */
-const ingredients = new Map();
+});
 
 forms.INGREDIENT.addEventListener('submit', e => {
     const {
@@ -29,19 +30,53 @@ forms.INGREDIENT.addEventListener('submit', e => {
         texture
     } = e.currentTarget.elements;
 
-    const color = (colorspace.value === 'rgb' ? [red, green, blue] : [hue, saturation, lightness]).map(entry => entry.value);
-    const colorString = `${colorspace.value}(${color.join(' ')})`;
+    const color = {
+        red: parseInt(red.value),
+        green: parseInt(green.value),
+        blue: parseInt(blue.value),
+        hue: parseInt(hue.value),
+        saturation: parseInt(saturation.value),
+        lightness: parseInt(lightness.value)
+    };
 
-    console.log(minMixingTimeMs.value);
-    console.log(mixingSpeed.value);
-    console.log(colorspace.value, color);
-    console.log(texture.value);
+    // console.log(minMixingTimeMs.value);
+    // console.log(mixingSpeed.value);
+    // console.log(colorspace.value, color);
+    // console.log(texture.value);
 
-    const ingredientElement = document.createElement('x-ingredient');
-    ingredientElement.innerHTML = texture.value;
-
-    ingredientElement.style.setProperty('--background-color', `${colorString}`)
-    ingredientElement.classList.add(`texture-${texture.value}`)
+    const ingredientElement = new Ingredient();
+    ingredientElement.color = colorspace.value === 'rgb' ? new RGBColor(color.red, color.green, color.blue) : new HSLColor(color.hue, color.saturation, color.lightness);
+    ingredientElement.texture = texture.value;
 
     lists.INGREDIENTS.appendChild(ingredientElement);
+});
+
+document.getElementById('create-bucket').addEventListener('click', e => {
+    const bucketElement = new Bucket();
+    lists.BUCKETS.appendChild(bucketElement);
 })
+
+const showHallOneButton = document.getElementById('show-hall-1');
+const showHallTwoButton = document.getElementById('show-hall-2');
+/** @type {View?} */
+const hallOne = document.querySelector('x-view[name="hall-1"][group="halls"]')
+const halls = document.querySelectorAll('x-view[group="halls"]');
+
+showHallOneButton.addEventListener('click', e => showHall(1));
+showHallTwoButton.addEventListener('click', e => showHall(2));
+
+const hideHalls = () => {
+    halls.forEach(
+        /** @param {View} hall */
+        hall => hall.hide()
+    );
+}
+const showHall = (index) => {
+    hideHalls();
+    document.querySelector(`x-view[name="hall-${index}"][group="halls"]`).show();
+
+    if (!hallOne.visible) {
+        document.getElementById('ingredients-popover').hidePopover();
+    }
+    document.getElementById('open-ingredients-popover').toggleAttribute('disabled', !hallOne.visible);
+}

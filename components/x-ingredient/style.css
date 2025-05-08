@@ -1,0 +1,22 @@
+x-ingredient {
+    --background-color: rgb(255, 0, 0);
+    display: block;
+    height: 70px;
+    width: 70px;
+    background-color: var(--background-color);
+    background-size: 25%;
+    border-radius: 10px;
+
+    &[texture=grainy] {
+        background-image: url('/assets/svg/textures/grainy.svg');
+    }
+    &[texture=coarse_grainy] {
+        background-image: url('/assets/svg/textures/coarse_grainy.svg');
+        background-size: 50%;
+    }
+
+    &[texture=viscous] {
+        background-image: url('/assets/svg/textures/viscous.svg');
+        background-size: 100%;
+    }
+}

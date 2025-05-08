@@ -1,0 +1,26 @@
+x-bucket {
+    display: block;
+    height: 120px;
+    width: 120px;
+    padding: 6px;
+
+    svg {
+        height: 100%;
+        width: 100%;
+
+        path {
+            &.color-one {
+                fill: var(--color-one, transparent);
+            }
+
+            &.color-two {
+                fill: var(--color-two, transparent);
+            }
+
+            &.color-three {
+                fill: var(--color-three, transparent);
+            }
+        }
+    }
+
+}

@@ -1,0 +1,28 @@
+button {
+    padding: 10px 16px;
+    border: 0;
+    background-color: hsl(0 0 100);
+    color: black;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 16px;
+
+    &:not(:disabled) {
+        cursor: pointer;
+        &:hover {
+            background-color: hsl(0 0 90);
+        }
+        &.alt:hover {
+            background-color: hsl(0 0 20);
+        }
+    }
+
+    &:disabled {
+        opacity: .5;
+    }
+    
+    &.alt {
+        background-color: hsl(0 0 0);
+        color: white;
+    }
+}

@@ -1,8 +1,8 @@
 @import "./reset.css";
 /* @import "./variables.css"; */
 /* @import "./layouts.css"; */
-/* @import "./inputs.css";
-@import "./colorpicker.css"; */
+/* @import "./inputs.css"; */
+/* @import "./colorpicker.css"; */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -10,6 +10,55 @@
 *::before,
 *::after {
     font-family: 'Roboto', sans-serif;
+}
+
+
+body {
+    min-height: 100vh;
+    background-color: #141414;
+
+    #loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        background-color: rgb(214, 214, 214);
+        color: rgb(79, 79, 79);
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 60px;
+            width: 60px;
+            transform: translate(-50%, -50%);
+        }
+
+        &.fading-out {
+            animation: fade-out 300ms linear forwards;
+        }
+
+        &.finished-loading {
+            display: none;
+        }
+    }
+}
+
+@keyframes fade-out {
+    from {
+        display: block;
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.cube {
+    background-color: red;
 }
 
 form {
@@ -28,6 +77,7 @@ form {
             display: none;
         }
     }
+
     &:has(option[value=hsl]:checked) {
         #rgbInputs {
             display: none;
@@ -37,9 +87,10 @@ form {
     .input-group {
         display: flex;
         gap: 4px;
-        
+
         label {
             flex: 1 0 30%;
+
             input {
                 width: 100%;
             }
@@ -47,21 +98,52 @@ form {
     }
 }
 
-#list-ingredients {
+#list-ingredients,
+#list-buckets {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
 }
 
-x-ingredient {
-    --background-color: rgb(255, 0, 0);
-    display: block;
-    height: 70px;
-    width: 70px;
-    background-color: var(--background-color);
-    background-size: 25%;
+.workspace {
+    display: grid;
+    grid-template-areas:
+        "I H M"
+        "B H M";
+    grid-template-rows: minmax(300px, 1fr) minmax(300px, 1fr);
+    gap: 8px;
 
-    &.texture-grainy {
-        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='black' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    section {
+        display: block;
+        background-color: #ffdfc1;
+        border: 1px solid black;
+
+        &#ingredients {
+            grid-area: I;
+        }
+        &#mixed-buckets {
+            grid-area: M;
+        }
+        &#buckets {
+            grid-area: B;
+        }
+        &#halls {
+            grid-area: H;
+        }
+    }
+}
+
+dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid gray;
+    background-color: #2a2a2a;
+    color: white;
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
     }
 }

@@ -1,0 +1,5 @@
+x-view {
+    &[visible="false"] {
+        display: none;
+    }
+}
