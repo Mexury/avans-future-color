@@ -3,7 +3,6 @@
 import Bucket from '../components/x-bucket/index.js';
 import Hall from '../components/x-hall/index.js';
 import Ingredient from '../components/x-ingredient/index.js';
-import View from '../components/x-view/index.js';
 import Mixer from '../components/x-mixer/index.js';
 import { RGBColor, HSLColor } from './inc/Color.js';
 
