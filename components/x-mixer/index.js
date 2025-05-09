@@ -55,7 +55,6 @@ export default class Mixer extends HTMLElement {
             this.isMixing = false;
             if (!this.#bucket) return;
             this.#bucket.isMixed = true;
-            this.#bucket.draggable = false;
             lists.MIXED_BUCKETS.appendChild(this.#bucket);
         })
     }

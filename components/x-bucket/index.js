@@ -186,6 +186,7 @@ export default class Bucket extends HTMLElement {
         `);
 
         this.addEventListener('dragstart', e => {
+            if (this.isMixed) return e.preventDefault();
             e.dataTransfer.setData('future-color/bucket', JSON.stringify(this.toJsonObject()));
         });
         this.addEventListener('dragover', e => {
@@ -193,6 +194,7 @@ export default class Bucket extends HTMLElement {
         });
         this.addEventListener('drop', e => {
             e.preventDefault();
+            if (this.isMixed) return;
 
             const ingredientData = e.dataTransfer.getData('future-color/ingredient');
             if (ingredientData) {

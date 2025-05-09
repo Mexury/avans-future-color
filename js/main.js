@@ -1,6 +1,7 @@
 'use strict';
 
 import Bucket from '../components/x-bucket/index.js';
+import Hall from '../components/x-hall/index.js';
 import Ingredient from '../components/x-ingredient/index.js';
 import View from '../components/x-view/index.js';
 import { RGBColor, HSLColor } from './inc/Color.js';
@@ -39,11 +40,6 @@ forms.INGREDIENT.addEventListener('submit', e => {
         lightness: parseInt(lightness.value)
     };
 
-    // console.log(minMixingTimeMs.value);
-    // console.log(mixingSpeed.value);
-    // console.log(colorspace.value, color);
-    // console.log(texture.value);
-
     const ingredientElement = new Ingredient();
     ingredientElement.color = colorspace.value === 'rgb' ? new RGBColor(color.red, color.green, color.blue) : new HSLColor(color.hue, color.saturation, color.lightness);
     ingredientElement.texture = texture.value;
@@ -58,22 +54,22 @@ document.getElementById('create-bucket').addEventListener('click', e => {
 
 const showHallOneButton = document.getElementById('show-hall-1');
 const showHallTwoButton = document.getElementById('show-hall-2');
-/** @type {View?} */
-const hallOne = document.querySelector('x-view[name="hall-1"][group="halls"]')
-const halls = document.querySelectorAll('x-view[group="halls"]');
+/** @type {Hall?} */
+const hallOne = document.querySelector('x-hall[name="hall-1"]')
+const halls = document.querySelectorAll('x-hall');
 
 showHallOneButton.addEventListener('click', e => showHall(1));
 showHallTwoButton.addEventListener('click', e => showHall(2));
 
 const hideHalls = () => {
     halls.forEach(
-        /** @param {View} hall */
+        /** @param {Hall} hall */
         hall => hall.hide()
     );
 }
 const showHall = (index) => {
     hideHalls();
-    document.querySelector(`x-view[name="hall-${index}"][group="halls"]`).show();
+    document.querySelector(`x-hall[name="hall-${index}"]`).show();
 
     if (!hallOne.visible) {
         document.getElementById('ingredients-popover').hidePopover();

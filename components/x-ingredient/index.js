@@ -74,7 +74,6 @@ export default class Ingredient extends HTMLElement {
         instance.mixingSpeed = object.mixingSpeed;
         instance.color = object.colorspace === 'rgb' ? RGBColor.fromJsonObject(object.color) : HSLColor.fromJsonObject(object.color);
         instance.texture = object.texture;
-        console.log('AAA', instance.color);
         
         return instance;
     }
