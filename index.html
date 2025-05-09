@@ -61,10 +61,14 @@
                 <button id="show-hall-2">HALL 2</button>
             </nav>
             <x-hall name="hall-1" group="halls" visible="true">
-                <x-mixer></x-mixer>
+                <button id="create-mixer-hall-1">
+                    New mixer
+                </button>
             </x-hall>
             <x-hall name="hall-2" group="halls" visible="false" aria-hidden="true">
-                HALL 2
+                <button id="create-mixer-hall-2">
+                    New mixer
+                </button>
             </x-hall>
         </section>
         <section id="mixed-buckets">
@@ -132,6 +136,10 @@
 
             <button type="submit">Create</button>
         </form>
+    </dialog>
+
+    <dialog id="error-modal">
+
     </dialog>
 
 </body>

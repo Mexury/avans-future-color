@@ -6,9 +6,7 @@
  * @param {number} min 
  * @param {number} max 
  */
-export function isBetween(value, min, max) {
-    return value >= min && value <= max;
-}
+export const isBetween = (value, min, max) => value >= min && value <= max;
 
 /**
  * Convert a color from RGB color space to HSL color space.
@@ -21,7 +19,7 @@ export function isBetween(value, min, max) {
 *      lightness: number
 * }}
 */
-export function RGBToHSL(red, green, blue) {
+export const RGBToHSL = (red, green, blue) => {
     red /= 255;
     green /= 255;
     blue /= 255;
@@ -73,7 +71,7 @@ export function RGBToHSL(red, green, blue) {
 *      blue: number
 * }}
 */
-export function HSLToRGB(hue, saturation, lightness) {
+export const HSLToRGB = (hue, saturation, lightness) => {
     saturation /= 100;
     lightness /= 100;
 

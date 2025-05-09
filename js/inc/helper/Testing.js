@@ -9,7 +9,7 @@ import { isBetween } from './Math.js';
  * @param {number} min 
  * @param {number} max 
  */
-export function expectBetween(name, value, min, max) {
+export const expectBetween = (name, value, min, max) => {
     if (!isBetween(value, min, max)) {
         throw new Error(`Invalid value for ${name}. Expected a numeric value between ${min} and ${max}, got ${value}`)
     }
@@ -22,7 +22,7 @@ export function expectBetween(name, value, min, max) {
  * @param {string} expectedType
  * @throws {Error}
  */
-export function expectType(name, value, expectedType) {
+export const expectType = (name, value, expectedType) => {
     if (typeof value !== expectedType) {
         throw new Error(`Invalid type for ${name}. Expected ${expectType}, got ${typeof value}`)
     }

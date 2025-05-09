@@ -4,6 +4,7 @@ import Bucket from '../components/x-bucket/index.js';
 import Hall from '../components/x-hall/index.js';
 import Ingredient from '../components/x-ingredient/index.js';
 import View from '../components/x-view/index.js';
+import Mixer from '../components/x-mixer/index.js';
 import { RGBColor, HSLColor } from './inc/Color.js';
 
 const forms = {
@@ -14,6 +15,47 @@ export const lists = {
     BUCKETS: document.getElementById('list-buckets'),
     MIXED_BUCKETS: document.getElementById('list-mixed-buckets'),
 };
+const showHallOneButton = document.getElementById('show-hall-1');
+const showHallTwoButton = document.getElementById('show-hall-2');
+const createBucketButton = document.getElementById('create-bucket');
+const createMixerHallOneButton = document.getElementById('create-mixer-hall-1');
+const createMixerHallTwoButton = document.getElementById('create-mixer-hall-2');
+
+/** @type {Hall?} */
+const hallOne = document.querySelector('x-hall[name="hall-1"]')
+const halls = document.querySelectorAll('x-hall');
+
+const hideHalls = () => {
+    halls.forEach(
+        /** @param {Hall} hall */
+        hall => hall.hide()
+    );
+}
+const showHall = (index) => {
+    hideHalls();
+    document.querySelector(`x-hall[name="hall-${index}"]`).show();
+
+    if (!hallOne.visible) {
+        document.getElementById('ingredients-popover').hidePopover();
+    }
+    document.getElementById('open-ingredients-popover').toggleAttribute('disabled', !hallOne.visible);
+}
+const createMixer = (hallIndex) => {
+    if (halls.length >= hallIndex) {
+        const mixer = new Mixer();
+        halls[hallIndex-1].appendChild(mixer);
+    }
+}
+const createBucket = () => {
+    const bucketElement = new Bucket();
+    lists.BUCKETS.appendChild(bucketElement);
+}
+
+showHallOneButton.addEventListener('click', e => showHall(1));
+showHallTwoButton.addEventListener('click', e => showHall(2));
+createBucketButton.addEventListener('click', createBucket);
+createMixerHallOneButton.addEventListener('click', e => createMixer(1));
+createMixerHallTwoButton.addEventListener('click', e => createMixer(2));
 
 Object.values(forms).forEach(form => {
     if (form instanceof HTMLFormElement) {
@@ -46,33 +88,3 @@ forms.INGREDIENT.addEventListener('submit', e => {
 
     lists.INGREDIENTS.appendChild(ingredientElement);
 });
-
-document.getElementById('create-bucket').addEventListener('click', e => {
-    const bucketElement = new Bucket();
-    lists.BUCKETS.appendChild(bucketElement);
-})
-
-const showHallOneButton = document.getElementById('show-hall-1');
-const showHallTwoButton = document.getElementById('show-hall-2');
-/** @type {Hall?} */
-const hallOne = document.querySelector('x-hall[name="hall-1"]')
-const halls = document.querySelectorAll('x-hall');
-
-showHallOneButton.addEventListener('click', e => showHall(1));
-showHallTwoButton.addEventListener('click', e => showHall(2));
-
-const hideHalls = () => {
-    halls.forEach(
-        /** @param {Hall} hall */
-        hall => hall.hide()
-    );
-}
-const showHall = (index) => {
-    hideHalls();
-    document.querySelector(`x-hall[name="hall-${index}"]`).show();
-
-    if (!hallOne.visible) {
-        document.getElementById('ingredients-popover').hidePopover();
-    }
-    document.getElementById('open-ingredients-popover').toggleAttribute('disabled', !hallOne.visible);
-}
