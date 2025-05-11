@@ -130,8 +130,8 @@ forms.MIXER.addEventListener('submit', e => {
 });
 
 const generateStartingIngredients = () => {
-    const mixingSpeeds = [5, 25, 12];
-    const mixingTimes = [1000, 5000, 300];
+    const mixingSpeeds = [100, 200, 200];
+    const mixingTimes = [1000, 3000, 500];
     const colors = [[255, 0, 0], [0, 255, 0], [0, 0, 255]];
     const textures = ['grainy', 'coarse_grainy', 'smooth'];
 
