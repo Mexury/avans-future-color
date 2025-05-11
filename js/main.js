@@ -123,6 +123,8 @@ forms.MIXER.addEventListener('submit', e => {
         const mixer = new Mixer();
         mixer.mixingTime = mixingTime.value;
         mixer.mixingSpeed = mixingSpeed.value;
+        mixer.setAttribute('mixer-index', lists[`HALL_${hall.value}_MIXERS`].childElementCount+1);
+        // this.setAttribute('mixer-index', document.querySelectorAll('x-mixer').length);
         lists[`HALL_${hall.value}_MIXERS`].appendChild(mixer);
     }
 });

@@ -86,7 +86,6 @@ export default class Mixer extends HTMLElement {
     }
 
     connectedCallback() {
-        this.setAttribute('mixer-index', document.querySelectorAll('x-mixer').length);
         this.#updateColors();
 
         this.insertAdjacentHTML(
@@ -162,39 +161,6 @@ export default class Mixer extends HTMLElement {
             } else return generateError('Mixers only accept buckets with 2 or more unprocessed ingredients.');
         }
         this.addEventListener('drop', handleDrop.bind(this));
-        // this.addEventListener('drop', e => {
-        //     e.preventDefault();
-        //     if (this.#isMixing) return;
-
-        //     const bucketData = e.dataTransfer.getData('future-color/bucket');
-        //     if (bucketData) {
-        //         const bucket = Bucket.fromJsonObject(JSON.parse(bucketData));
-
-        //         if (bucket.ingredients.length < 2) return;
-        //         this.#bucket = bucket;
-        //         this.#updateColors();
-
-        //         const duration = Math.max(
-        //             Ingredient.minMixingTime,
-        //             this.#bucket.getSlowestIngredient().mixingTime
-        //         );
-
-        //         this.style.setProperty('--duration', `${duration}ms`);
-        //         this.isMixing = true;
-        //     }
-        // });
-        // this.addEventListener('animationend', e => {
-        //     if (!this.isMixing) return;
-        //     this.isMixing = false;
-
-        //     if (!this.#bucket) return;
-        //     this.#bucket.isMixed = true;
-
-        //     lists.MIXED_BUCKETS.appendChild(this.#bucket);
-
-        //     this.#bucket = null;
-        //     this.#updateColors();
-        // })
     }
 
 }
