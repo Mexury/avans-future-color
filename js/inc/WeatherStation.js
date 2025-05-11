@@ -1,7 +1,7 @@
 'use strict';
 
 import * as env from '../env.js';
-import { generateError } from './Tooltip.js';
+import { generateError } from './helper/Hinting.js';
 
 export class WeatherStation {
 
@@ -46,6 +46,9 @@ export class WeatherStation {
             generateError('Unable to get current weather for specified location. Check console for more details.');
             console.error('Unable to get current weather for specified location.', error);
         }
+
+        // Update every weather 5 minutes
+        setTimeout(this.update, 1000 * 60 * 5);
     }
 
 }

@@ -1,7 +1,7 @@
 /** @typedef {('GRAINY'|'COARSE_GRAINY'|'SMOOTH'|'VISCOUS')} IngredientTexture */
 
 import { Color, HSLColor, RGBColor } from '../../js/inc/Color.js';
-import { generateTooltip } from '../../js/inc/Tooltip.js';
+import { generateTooltip } from '../../js/inc/helper/Hinting.js';
 
 export default class Ingredient extends HTMLElement {
     static minMixingTime = 1000;

@@ -1,6 +1,6 @@
 'use strict';
 
-import { lists } from './helper/Lists.js';
+import { lists } from './Lists.js';
 
 export const generateTooltip = (infoGroups) => {
     const tooltip = document.createElement('div');

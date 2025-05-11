@@ -1,7 +1,7 @@
 import { Color } from '../../js/inc/Color.js';
 import LimitedArray from '../../js/inc/LimitedArray.js';
 import TestingWorkspace from '../../js/inc/TestingWorkspace.js';
-import { generateError, generateTooltip } from '../../js/inc/Tooltip.js';
+import { generateError, generateTooltip } from '../../js/inc/helper/Hinting.js';
 import Ingredient from '../x-ingredient/index.js';
 
 export default class Bucket extends HTMLElement {

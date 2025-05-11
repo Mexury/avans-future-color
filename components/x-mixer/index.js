@@ -1,6 +1,6 @@
 import { Color } from '../../js/inc/Color.js';
 import { lists } from '../../js/inc/helper/Lists.js';
-import { generateError, generateTooltip } from '../../js/inc/Tooltip.js';
+import { generateError, generateTooltip } from '../../js/inc/helper/Hinting.js';
 import { WeatherStation } from '../../js/inc/WeatherStation.js';
 import Bucket from '../x-bucket/index.js';
 import Ingredient from '../x-ingredient/index.js';

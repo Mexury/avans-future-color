@@ -3,9 +3,10 @@
 import Bucket from '../components/x-bucket/index.js';
 import Ingredient from '../components/x-ingredient/index.js';
 import Mixer from '../components/x-mixer/index.js';
+import { forms } from './inc/helper/Forms.js';
 import { lists } from './inc/helper/Lists.js';
 import TestingWorkspace from './inc/TestingWorkspace.js';
-import { generateError } from './inc/Tooltip.js';
+import { generateError } from './inc/helper/Hinting.js';
 import { WeatherStation } from './inc/WeatherStation.js';
 
 document.addEventListener('weather:updated', e => {
@@ -19,7 +20,7 @@ document.addEventListener('weather:updated', e => {
     const fahrenheitView = weatherStation.querySelector('x-view[name=fahrenheit][group=temperature]');
     const locationText = document.getElementById('weather-location');
     const locationSubText = document.getElementById('weather-location-subtext');
-    
+
     const {
         temp_c: tempC,
         temp_f: tempF,
@@ -38,12 +39,6 @@ document.addEventListener('weather:updated', e => {
 })
 WeatherStation.location = '\'s-Hertogenbosch';
 
-const forms = {
-    GLOBAL_SETTINGS: document.querySelector('form#global-settings'),
-    WEATHER_SETTINGS: document.querySelector('form#weather-settings'),
-    INGREDIENT: document.querySelector('form#create-ingredient'),
-    MIXER: document.querySelector('form#create-mixer')
-};
 const showHallOneButton = document.getElementById('show-hall-1');
 const showHallTwoButton = document.getElementById('show-hall-2');
 const createBucketButton = document.getElementById('create-bucket');
@@ -57,8 +52,8 @@ const createBucket = () => {
     lists.BUCKETS.appendChild(bucketElement);
 }
 
-showHallOneButton.addEventListener('click', e => toggleIngredientCreation(false));
-showHallTwoButton.addEventListener('click', e => toggleIngredientCreation(true));
+showHallOneButton.addEventListener('click', () => toggleIngredientCreation(false));
+showHallTwoButton.addEventListener('click', () => toggleIngredientCreation(true));
 createBucketButton.addEventListener('click', createBucket);
 
 Object.values(forms).forEach(form => {
@@ -68,18 +63,12 @@ Object.values(forms).forEach(form => {
 });
 
 forms.WEATHER_SETTINGS.addEventListener('submit', e => {
-    const {
-        location
-    } = e.currentTarget.elements;
-
+    const { location } = e.currentTarget.elements;
     WeatherStation.location = location.value;
 });
 
 forms.GLOBAL_SETTINGS.addEventListener('submit', e => {
-    const {
-        minMixingTime,
-        minMixingSpeed
-    } = e.currentTarget.elements;
+    const { minMixingTime, minMixingSpeed } = e.currentTarget.elements;
 
     if (Ingredient.minMixingTime != minMixingTime.value) {
         Ingredient.minMixingTime = minMixingTime.value;
