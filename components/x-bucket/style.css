@@ -1,12 +1,36 @@
 x-bucket {
     display: block;
-    height: 120px;
-    width: 120px;
-    padding: 6px;
+    --scale: .5;
+    aspect-ratio: 216/248;
+    width: clamp(80px, 100%, 100px);
+    /* height: calc(248px * var(--scale));
+    width: calc(216px * var(--scale)); */
+    position: relative;
+    animation: pop-in 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-    svg {
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
         height: 100%;
         width: 100%;
+        background-image: url('/assets/svg/bucket/inside.svg');
+        z-index: 1;
+        background-size: 100%;
+    }
+    &::after {
+        z-index: 0;
+        background-image: url('/assets/svg/bucket/base.svg');
+    }
+
+    svg {
+        display: block;
+        height: 100%;
+        width: 100%;
+        z-index: 2;
+        position: relative;
 
         path {
             &.color-one {
@@ -20,6 +44,13 @@ x-bucket {
             &.color-three {
                 fill: var(--color-three, transparent);
             }
+        }
+    }
+
+    &.active {
+        &::before,
+        &::after {
+            filter: sepia(1) saturate(2);
         }
     }
 

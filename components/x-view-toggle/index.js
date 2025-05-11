@@ -22,8 +22,8 @@ export default class ViewToggle extends HTMLButtonElement {
 
     connectedCallback() {
         this.tabIndex = 0;
-        this.#view = document.querySelector(`x-view[name=${this.for}][group=${this.group}]`);
-        this.#groupContents = this.group ? document.querySelectorAll(`x-view[group=${this.group}]`) : [];
+        this.#view = document.querySelector(`:is(x-view, x-hall)[name=${this.for}][group=${this.group}]`);
+        this.#groupContents = this.group ? document.querySelectorAll(`:is(x-view, x-hall)[group=${this.group}]`) : [];
         this.addEventListener('click', this.#onClick.bind(this));
     }
 
@@ -32,6 +32,8 @@ export default class ViewToggle extends HTMLButtonElement {
     }
 
     #onClick(event) {
+        document.querySelectorAll(`:is(x-view-toggle,button[is=x-view-toggle])[group=${this.group}]`).forEach(toggle => toggle.removeAttribute('disabled'));
+        this.toggleAttribute('disabled', true);
         this.#groupContents.forEach(view => view.hide());
         this.#view.show();
     }

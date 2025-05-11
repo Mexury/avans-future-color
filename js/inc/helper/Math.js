@@ -72,26 +72,27 @@ export const RGBToHSL = (red, green, blue) => {
 * }}
 */
 export const HSLToRGB = (hue, saturation, lightness) => {
+    // Normalize hue to the [0, 360) range
+    hue = ((hue % 360) + 360) % 360;
     saturation /= 100;
     lightness /= 100;
 
-    let c = (1 - Math.abs(2 * lightness - 1)) * saturation,
-        x = c * (1 - Math.abs((hue / 60) % 2 - 1)),
-        m = lightness - c / 2,
-        red = 0,
-        green = 0,
-        blue = 0;
+    const c = (1 - Math.abs(2 * lightness - 1)) * saturation;
+    const x = c * (1 - Math.abs((hue / 60) % 2 - 1));
+    const m = lightness - c / 2;
 
-    if (hue >= 0 && hue < 60) [red, green, blue] = [c, x, 0];
-    else if (hue >= 60 && hue < 120) [red, green, blue] = [x, c, 0];
-    else if (hue >= 120 && hue < 180) [red, green, blue] = [0, c, x];
-    else if (hue >= 180 && hue < 240) [red, green, blue] = [0, x, c];
-    else if (hue >= 240 && hue < 300) [red, green, blue] = [x, 0, c];
-    else if (hue >= 300 && hue < 360) [red, green, blue] = [c, 0, x];
+    let [red, green, blue] = [0, 0, 0];
+
+    if (hue < 60) [red, green, blue] = [c, x, 0];
+    else if (hue < 120) [red, green, blue] = [x, c, 0];
+    else if (hue < 180) [red, green, blue] = [0, c, x];
+    else if (hue < 240) [red, green, blue] = [0, x, c];
+    else if (hue < 300) [red, green, blue] = [x, 0, c];
+    else [red, green, blue] = [c, 0, x];
 
     red = Math.round((red + m) * 255);
     green = Math.round((green + m) * 255);
     blue = Math.round((blue + m) * 255);
 
     return { red, green, blue };
-}
+};

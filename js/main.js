@@ -1,60 +1,65 @@
 'use strict';
 
 import Bucket from '../components/x-bucket/index.js';
-import Hall from '../components/x-hall/index.js';
 import Ingredient from '../components/x-ingredient/index.js';
 import Mixer from '../components/x-mixer/index.js';
-import { RGBColor, HSLColor } from './inc/Color.js';
+import { lists } from './inc/helper/Lists.js';
+import TestingWorkspace from './inc/TestingWorkspace.js';
+import { generateError } from './inc/Tooltip.js';
+import { WeatherStation } from './inc/WeatherStation.js';
+
+document.addEventListener('weather:updated', e => {
+    const { data } = e.detail;
+    if (data.error) return;
+
+    const weatherStation = document.getElementById('weather-station');
+    const conditionImage = document.getElementById('weather-condition-image');
+    const conditionText = document.getElementById('weather-condition-text');
+    const celciusView = weatherStation.querySelector('x-view[name=celcius][group=temperature]');
+    const fahrenheitView = weatherStation.querySelector('x-view[name=fahrenheit][group=temperature]');
+    const locationText = document.getElementById('weather-location');
+    const locationSubText = document.getElementById('weather-location-subtext');
+    
+    const {
+        temp_c: tempC,
+        temp_f: tempF,
+        condition
+    } = data.current;
+
+    const { location } = data;
+
+    conditionImage.src = `https:${condition.icon}`;
+    conditionImage.alt = condition.text;
+    conditionText.textContent = condition.text;
+    celciusView.innerHTML = `${tempC} &deg;C`;
+    fahrenheitView.innerHTML = `${tempF} &deg;F`;
+    locationText.textContent = `${location.name}`;
+    locationSubText.textContent = `${location.region}, ${location.country}`;
+})
+WeatherStation.location = '\'s-Hertogenbosch';
 
 const forms = {
-    INGREDIENT: document.querySelector('form#create-ingredient')
-};
-export const lists = {
-    INGREDIENTS: document.getElementById('list-ingredients'),
-    BUCKETS: document.getElementById('list-buckets'),
-    MIXED_BUCKETS: document.getElementById('list-mixed-buckets'),
+    GLOBAL_SETTINGS: document.querySelector('form#global-settings'),
+    WEATHER_SETTINGS: document.querySelector('form#weather-settings'),
+    INGREDIENT: document.querySelector('form#create-ingredient'),
+    MIXER: document.querySelector('form#create-mixer')
 };
 const showHallOneButton = document.getElementById('show-hall-1');
 const showHallTwoButton = document.getElementById('show-hall-2');
 const createBucketButton = document.getElementById('create-bucket');
-const createMixerHallOneButton = document.getElementById('create-mixer-hall-1');
-const createMixerHallTwoButton = document.getElementById('create-mixer-hall-2');
-
-/** @type {Hall?} */
-const hallOne = document.querySelector('x-hall[name="hall-1"]')
 const halls = document.querySelectorAll('x-hall');
 
-const hideHalls = () => {
-    halls.forEach(
-        /** @param {Hall} hall */
-        hall => hall.hide()
-    );
-}
-const showHall = (index) => {
-    hideHalls();
-    document.querySelector(`x-hall[name="hall-${index}"]`).show();
-
-    if (!hallOne.visible) {
-        document.getElementById('ingredients-popover').hidePopover();
-    }
-    document.getElementById('open-ingredients-popover').toggleAttribute('disabled', !hallOne.visible);
-}
-const createMixer = (hallIndex) => {
-    if (halls.length >= hallIndex) {
-        const mixer = new Mixer();
-        halls[hallIndex-1].appendChild(mixer);
-    }
+const toggleIngredientCreation = (show) => {
+    document.getElementById('open-ingredients-popover').toggleAttribute('disabled', show);
 }
 const createBucket = () => {
     const bucketElement = new Bucket();
     lists.BUCKETS.appendChild(bucketElement);
 }
 
-showHallOneButton.addEventListener('click', e => showHall(1));
-showHallTwoButton.addEventListener('click', e => showHall(2));
+showHallOneButton.addEventListener('click', e => toggleIngredientCreation(false));
+showHallTwoButton.addEventListener('click', e => toggleIngredientCreation(true));
 createBucketButton.addEventListener('click', createBucket);
-createMixerHallOneButton.addEventListener('click', e => createMixer(1));
-createMixerHallTwoButton.addEventListener('click', e => createMixer(2));
 
 Object.values(forms).forEach(form => {
     if (form instanceof HTMLFormElement) {
@@ -62,9 +67,31 @@ Object.values(forms).forEach(form => {
     }
 });
 
+forms.WEATHER_SETTINGS.addEventListener('submit', e => {
+    const {
+        location
+    } = e.currentTarget.elements;
+
+    WeatherStation.location = location.value;
+});
+
+forms.GLOBAL_SETTINGS.addEventListener('submit', e => {
+    const {
+        minMixingTime,
+        minMixingSpeed
+    } = e.currentTarget.elements;
+
+    if (Ingredient.minMixingTime != minMixingTime.value) {
+        Ingredient.minMixingTime = minMixingTime.value;
+    }
+    if (Ingredient.minMixingSpeed != minMixingSpeed.value) {
+        Ingredient.minMixingSpeed = minMixingSpeed.value;
+    }
+});
+
 forms.INGREDIENT.addEventListener('submit', e => {
     const {
-        minMixingTimeMs,
+        mixingTime,
         mixingSpeed,
         colorspace,
         red, green, blue,
@@ -72,18 +99,75 @@ forms.INGREDIENT.addEventListener('submit', e => {
         texture
     } = e.currentTarget.elements;
 
-    const color = {
+    const color = colorspace.value === 'rgb' ? {
         red: parseInt(red.value),
         green: parseInt(green.value),
         blue: parseInt(blue.value),
+    } : {
         hue: parseInt(hue.value),
         saturation: parseInt(saturation.value),
         lightness: parseInt(lightness.value)
     };
 
-    const ingredientElement = new Ingredient();
-    ingredientElement.color = colorspace.value === 'rgb' ? new RGBColor(color.red, color.green, color.blue) : new HSLColor(color.hue, color.saturation, color.lightness);
-    ingredientElement.texture = texture.value;
+    const ingredient = Ingredient.fromJsonObject({
+        mixingTime: mixingTime.value,
+        mixingSpeed: mixingSpeed.value,
+        colorspace: colorspace.value,
+        color: color,
+        texture: texture.value
+    });
 
-    lists.INGREDIENTS.appendChild(ingredientElement);
+    lists.INGREDIENTS.appendChild(ingredient);
 });
+
+forms.MIXER.addEventListener('submit', e => {
+    const {
+        mixingTime,
+        mixingSpeed,
+        hall
+    } = e.currentTarget.elements;
+
+    if (halls.length >= hall.value) {
+        if (lists[`HALL_${hall.value}_MIXERS`].childElementCount >= 5) {
+            return generateError('Each hall can only have 5 mixers at a time.');
+        }
+        const mixer = new Mixer();
+        mixer.mixingTime = mixingTime.value;
+        mixer.mixingSpeed = mixingSpeed.value;
+        lists[`HALL_${hall.value}_MIXERS`].appendChild(mixer);
+    }
+});
+
+const generateStartingIngredients = () => {
+    const mixingSpeeds = [5, 25, 12];
+    const mixingTimes = [1000, 5000, 300];
+    const colors = [[255, 0, 0], [0, 255, 0], [0, 0, 255]];
+    const textures = ['grainy', 'coarse_grainy', 'smooth'];
+
+    for (let i = 0; i < 3; i++) {
+        const ingredient = Ingredient.fromJsonObject({
+            mixingSpeed: mixingSpeeds[i],
+            mixingTime: mixingTimes[i],
+            color: {
+                red: colors[i][0],
+                green: colors[i][1],
+                blue: colors[i][2]
+            },
+            colorspace: 'rgb',
+            texture: textures[i]
+        });
+        lists.INGREDIENTS.appendChild(ingredient);
+    }
+
+}
+const generateStartingBuckets = () => {
+    for (let i = 0; i < 3; i++) {
+        const bucket = new Bucket();
+        lists.BUCKETS.appendChild(bucket);
+    }
+}
+
+generateStartingIngredients();
+generateStartingBuckets();
+
+TestingWorkspace.generateGrid();

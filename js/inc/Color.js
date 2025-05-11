@@ -5,7 +5,7 @@ import { HSLToRGB, RGBToHSL } from './helper/Math.js';
 
 /** @abstract */
 export class Color {
-    get colorspace() { return undefined; }
+    get colorspace() { return null; }
 
     constructor() {
         if (this.constructor === Color) {
@@ -38,9 +38,9 @@ export class Color {
         blue /= colors.length;
         
         return new RGBColor(
-            Math.round(red),
-            Math.round(green),
-            Math.round(blue)
+            Math.floor(red),
+            Math.floor(green),
+            Math.floor(blue)
         );
     }
 
@@ -170,6 +170,18 @@ export class HSLColor extends Color {
     toRGB() {
         const { red, green, blue } = HSLToRGB(this.hue, this.saturation, this.lightness);
         return new RGBColor(red, green, blue);
+    }
+
+    /**
+     * Get triadic colors based on the current color.
+     * @returns {HSLColor[]}
+     */
+    getTriadicColors() {
+        return [
+            this,
+            new HSLColor((this.hue + 120) % 360, this.saturation, this.lightness),
+            new HSLColor((this.hue + 240) % 360, this.saturation, this.lightness)
+        ];
     }
 
     /**

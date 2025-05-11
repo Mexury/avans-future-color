@@ -1,11 +1,14 @@
 /** @typedef {('GRAINY'|'COARSE_GRAINY'|'SMOOTH'|'VISCOUS')} IngredientTexture */
 
 import { Color, HSLColor, RGBColor } from '../../js/inc/Color.js';
+import { generateTooltip } from '../../js/inc/Tooltip.js';
 
 export default class Ingredient extends HTMLElement {
+    static minMixingTime = 1000;
+    static minMixingSpeed = 0;
 
-    /** @type {number} Minimum mixing time in milliseconds */
-    #minMixingTime = 0;
+    /** @type {number} Mixing time in milliseconds */
+    #mixingTime = 0;
 
     /** @type {number} Mixing speed */
     #mixingSpeed = 1;
@@ -16,12 +19,12 @@ export default class Ingredient extends HTMLElement {
     /** @type {IngredientTexture} */
     #texture;
 
-    get minMixingTime() { return this.#minMixingTime; }
+    get mixingTime() { return this.#mixingTime; }
     get mixingSpeed() { return this.#mixingSpeed; }
     get color() { return this.#color; }
     get texture() { return this.#texture; }
 
-    set minMixingTime(value) { this.#minMixingTime = value; }
+    set mixingTime(value) { this.#mixingTime = value; }
     set mixingSpeed(value) { this.#mixingSpeed = value; }
     set color(value) {
         this.#color = value;
@@ -45,6 +48,37 @@ export default class Ingredient extends HTMLElement {
                 JSON.stringify(this.toJsonObject())
             );
         });
+
+        // Clear all child element nodes.
+        while(this.lastChild) {
+            this.lastChild.remove();
+        }
+
+        this.appendChild(generateTooltip([
+            {
+                title: 'Mixing time',
+                icon: 'clock',
+                values: `${this.mixingTime} ms`
+            },
+            {
+                title: 'Mixing speed',
+                icon: 'forward',
+                values: this.mixingSpeed
+            },
+            {
+                title: 'Color',
+                icon: 'swatch',
+                values: [
+                    this.color.colorspace,
+                    ...Object.values(this.color.toJsonObject())
+                ]
+            },
+            {
+                title: 'Texture',
+                icon: 'photo',
+                values: this.texture
+            }
+        ]));
     }
 
     /**
@@ -53,9 +87,9 @@ export default class Ingredient extends HTMLElement {
      */
     toJsonObject() {
         return {
-            minMixingTime: this.minMixingTime,
+            mixingTime: this.mixingTime,
             mixingSpeed: this.mixingSpeed,
-            color: this.#color.toJsonObject(),
+            color: this.color.toJsonObject(),
             colorspace: this.color.colorspace,
             texture: this.texture
         }
@@ -70,7 +104,7 @@ export default class Ingredient extends HTMLElement {
         if (!object) return;
         
         const instance = new Ingredient();
-        instance.minMixingTime = object.minMixingTime;
+        instance.mixingTime = object.mixingTime;
         instance.mixingSpeed = object.mixingSpeed;
         instance.color = object.colorspace === 'rgb' ? RGBColor.fromJsonObject(object.color) : HSLColor.fromJsonObject(object.color);
         instance.texture = object.texture;

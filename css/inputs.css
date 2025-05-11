@@ -10,10 +10,13 @@ button {
     &:not(:disabled) {
         cursor: pointer;
         &:hover {
-            background-color: hsl(0 0 90);
+            background-color: hsl(0 0 80);
         }
         &.alt:hover {
             background-color: hsl(0 0 20);
+        }
+        &.danger:hover {
+            background-color: hsl(349 100 35);
         }
     }
 
@@ -25,4 +28,33 @@ button {
         background-color: hsl(0 0 0);
         color: white;
     }
+    &.danger {
+        background-color: hsl(349 100 50);
+        color: white;
+    }
+}
+
+input {
+    
+    &:is(
+        [type=text],
+        [type=number]
+    ) {
+        background-color: #1c1c1c;
+        border: 1px solid #3b3b3b;
+        color: white;
+        padding: 12px 16px;
+        font-size: 15px;
+        border-radius: 7px;
+    }
+    
+}
+
+select {
+    background-color: #1c1c1c;
+    border: 1px solid #3b3b3b;
+    color: white;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-radius: 7px;
 }

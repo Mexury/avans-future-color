@@ -24,124 +24,232 @@
         </svg>
     </div>
 
-    <!-- <nav>
-        <button is="x-view-toggle" for="hall-one" group="halls">Menghal 1</button>
-        <button is="x-view-toggle" for="hall-two" group="halls">Menghal 2</button>
-        <button is="x-view-toggle" for="hall-three" group="halls">Menghal 3</button>
+    <nav class="main-nav">
+        <button id="open-global-settings-popover" popovertarget="global-settings-popover"
+            popovertargetaction="show">Global settings</button>
+        <button id="open-weather-settings-popover" popovertarget="weather-settings-popover"
+            popovertargetaction="show">Weather settings</button>
+        <button is="x-view-toggle" for="main" group="workspace" disabled>Main workspace</button>
+        <button is="x-view-toggle" for="testing" group="workspace">Testing workspace</button>
     </nav>
-
-    <br>
-
-    <x-view name="hall-one" group="halls" visible="true">
-        HALL 1
-    </x-view>
-    <x-view name="hall-two" group="halls">
-        HALL 2
-    </x-view>
-    <x-view name="hall-three" group="halls">
-        HALL 3
-    </x-view> -->
-
     <main class="workspace">
-        <section id="ingredients">
-            <button id="open-ingredients-popover" popovertarget="ingredients-popover" popovertargetaction="show">
-                New ingredient
-            </button>
-            <div id="list-ingredients"></div>
-        </section>
-        <section id="buckets">
-            <button id="create-bucket">
-                New bucket
-            </button>
-            <div id="list-buckets"></div>
-        </section>
-        <section id="halls">
-            <nav>
-                <button id="show-hall-1">HALL 1</button>
-                <button id="show-hall-2">HALL 2</button>
-            </nav>
-            <x-hall name="hall-1" group="halls" visible="true">
-                <button id="create-mixer-hall-1">
-                    New mixer
+        <x-view name="main" group="workspace" visible="true">
+            <section id="ingredients">
+                <h1>Ingredients</h1>
+
+                <button id="open-ingredients-popover" popovertarget="ingredients-popover" popovertargetaction="show"
+                    class="mr-auto">
+                    New ingredient
                 </button>
-            </x-hall>
-            <x-hall name="hall-2" group="halls" visible="false" aria-hidden="true">
-                <button id="create-mixer-hall-2">
-                    New mixer
+                <div id="list-ingredients"></div>
+            </section>
+            <section id="buckets">
+                <h1>Buckets</h1>
+
+                <button id="create-bucket" class="mr-auto">
+                    New bucket
                 </button>
-            </x-hall>
-        </section>
-        <section id="mixed-buckets">
-            MIXED BUCKETS
+                <div id="list-buckets"></div>
+            </section>
+            <section id="halls">
+                <h1>Halls</h1>
+                <nav>
+                    <button is="x-view-toggle" for="hall-1" group="halls" id="show-hall-1" disabled>Hall 1</button>
+                    <button is="x-view-toggle" for="hall-2" group="halls" id="show-hall-2">Hall 2</button>
+                    <button id="open-mixers-popover" popovertarget="mixers-popover" popovertargetaction="show">
+                        New mixer
+                    </button>
+                </nav>
+                <x-hall name="hall-1" group="halls" visible="true">
+                    <div class="list-mixers"></div>
+                </x-hall>
+                <x-hall name="hall-2" group="halls" visible="false" aria-hidden="true">
+                    <div class="list-mixers"></div>
+                </x-hall>
+            </section>
+        </x-view>
+        <x-view name="testing" group="workspace">
+            <h1>Testing Grid</h1>
+            <div id="testing-grid"></div>
+        </x-view>
+        <x-view name="mixed-buckets" visible="true">
+            <h1>Mixed Buckets</h1>
             <div id="list-mixed-buckets"></div>
-        </section>
+        </x-view>
     </main>
 
+    <dialog id="weather-settings-popover" popover>
+        <div class="dialog-content">
+            <div id="weather-station">
+                <img id="weather-condition-image">
+                <p id="weather-condition-text"></p>
+                <x-view name="celcius" group="temperature" visible="true"></x-view>
+                <x-view name="fahrenheit" group="temperature"></x-view>
+                <p id="weather-location">Loading...</p>
+                <p id="weather-location-subtext"></p>
+            </div>
+            <form id="weather-settings">
+                <label for="location">
+                    Location
+                    <input type="text" name="location" id="location" value="'s-Hertogenbosch">
+                </label>
+                <div class="input-group">
+                    <button type="button" is="x-view-toggle" for="celcius" group="temperature" disabled>Show
+                        &deg;C</button>
+                    <button type="button" is="x-view-toggle" for="fahrenheit" group="temperature">Show &deg;F</button>
+                </div>
+
+                <div class="input-group ml-auto">
+                    <button type="button" popovertarget="weather-settings-popover" popovertargetaction="hide"
+                        class="alt">Close</button>
+                    <button type="submit" popovertarget="weather-settings-popover"
+                        popovertargetaction="hide">Save</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id="global-settings-popover" popover>
+        <div class="dialog-content">
+            <form id="global-settings">
+                <label for="minMixingTime">
+                    Minimale mengtijd (milliseconden)
+                    <input type="number" name="minMixingTime" id="minMixingTime" value="1000" min="0" step="1">
+                </label>
+                <label for="minMixingSpeed">
+                    Minimale mengsnelheid
+                    <input type="number" name="minMixingSpeed" id="minMixingSpeed" value="1" min="1" step=".1">
+                </label>
+
+                <div class="input-group ml-auto">
+                    <button type="button" popovertarget="global-settings-popover" popovertargetaction="hide"
+                        class="alt">Close</button>
+                    <button type="submit" popovertarget="global-settings-popover"
+                        popovertargetaction="hide">Save</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
     <dialog id="ingredients-popover" popover>
-        <form id="create-ingredient">
-            <label for="minMixingTimeMs">
-                Minimale mengtijd in milliseconden
-                <input type="number" name="minMixingTimeMs" id="minMixingTimeMs" value="0" min="0" step="1">
-            </label>
-            <label for="mixingSpeed">
-                Mengsnelheid
-                <input type="number" name="mixingSpeed" id="mixingSpeed" value="1" min="1" step=".1">
-            </label>
-            <div class="input-group">
-                <label for="colorspace">
-                    Welk kleursysteem?
-                    <select name="colorspace" id="colorspace">
-                        <option value="rgb" checked>RGB</option>
-                        <option value="hsl">HSL</option>
-                    </select>
+        <div class="dialog-content">
+            <form id="create-ingredient">
+                <label for="minMixingTime">
+                    Minimale mengtijd (milliseconden)
+                    <input type="number" name="minMixingTime" id="minMixingTime" value="1000" min="0" step="1">
                 </label>
-                <label for="texture">
-                    Welke textuur?
-                    <select name="texture" id="texture">
-                        <option value="grainy" checked>Korrelig</option>
-                        <option value="coarse_grainy">Grof korrelig</option>
-                        <option value="smooth">Glad</option>
-                        <option value="viscous">Slijmerig</option>
-                    </select>
+                <label for="minMixingSpeed">
+                    Minimale mengsnelheid
+                    <input type="number" name="minMixingSpeed" id="minMixingSpeed" value="1" min="1" step=".1">
                 </label>
-            </div>
-            <div class="input-group" id="rgbInputs">
-                <label for="red">
-                    Rood
-                    <input type="number" name="red" id="red" value="255" min="0" step="1" max="255">
+                <label for="mixingTime">
+                    Mengtijd (milliseconden)
+                    <input type="number" name="mixingTime" id="mixingTime" value="0" min="0" step="1">
                 </label>
-                <label for="green">
-                    Groen
-                    <input type="number" name="green" id="green" value="0" min="0" step="1" max="255">
+                <label for="mixingSpeed">
+                    Mengsnelheid
+                    <input type="number" name="mixingSpeed" id="mixingSpeed" value="1" min="1" step=".1">
                 </label>
-                <label for="blue">
-                    Blauw
-                    <input type="number" name="blue" id="blue" value="0" min="0" step="1" max="255">
-                </label>
-            </div>
-            <div class="input-group" id="hslInputs">
-                <label for="hue">
-                    Hue
-                    <input type="number" name="hue" id="hue" value="0" min="0" step="1" max="360">
-                </label>
-                <label for="saturation">
-                    Saturation
-                    <input type="number" name="saturation" id="saturation" value="100" min="0" step="1" max="100">
-                </label>
-                <label for="lightness">
-                    Lightness
-                    <input type="number" name="lightness" id="lightness" value="100" min="0" step="1" max="100">
-                </label>
-            </div>
+                <div class="input-group">
+                    <label for="colorspace">
+                        Welk kleursysteem?
+                        <select name="colorspace" id="colorspace">
+                            <option value="rgb" checked>RGB</option>
+                            <option value="hsl">HSL</option>
+                        </select>
+                    </label>
+                    <label for="texture">
+                        Welke textuur?
+                        <select name="texture" id="texture">
+                            <option value="grainy" checked>Korrelig</option>
+                            <option value="coarse_grainy">Grof korrelig</option>
+                            <option value="smooth">Glad</option>
+                            <option value="viscous">Slijmerig</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="input-group" id="rgbInputs">
+                    <label for="red">
+                        Red
+                        <input type="number" name="red" id="red" value="255" min="0" step="1" max="255">
+                    </label>
+                    <label for="green">
+                        Green
+                        <input type="number" name="green" id="green" value="0" min="0" step="1" max="255">
+                    </label>
+                    <label for="blue">
+                        Blue
+                        <input type="number" name="blue" id="blue" value="0" min="0" step="1" max="255">
+                    </label>
+                </div>
+                <div class="input-group" id="hslInputs">
+                    <label for="hue">
+                        Hue
+                        <input type="number" name="hue" id="hue" value="0" min="0" step="1" max="360">
+                    </label>
+                    <label for="saturation">
+                        Saturation
+                        <input type="number" name="saturation" id="saturation" value="100" min="0" step="1" max="100">
+                    </label>
+                    <label for="lightness">
+                        Lightness
+                        <input type="number" name="lightness" id="lightness" value="50" min="0" step="1" max="100">
+                    </label>
+                </div>
 
-            <button type="submit">Create</button>
-        </form>
+                <div class="input-group ml-auto">
+                    <button type="button" popovertarget="ingredients-popover" popovertargetaction="hide"
+                        class="alt">Close</button>
+                    <button type="reset" popovertarget="ingredients-popover" popovertargetaction="hide"
+                        class="danger">Discard & Close</button>
+                    <button type="submit" popovertarget="ingredients-popover" popovertargetaction="hide">Create</button>
+                </div>
+            </form>
+        </div>
     </dialog>
 
-    <dialog id="error-modal">
-
+    <dialog id="mixers-popover" popover>
+        <div class="dialog-content">
+            <form id="create-mixer">
+                <label for="mixingTime">
+                    Mengtijd (milliseconden)
+                    <input type="number" name="mixingTime" id="mixingTime" value="0" min="0" step="1">
+                </label>
+                <label for="mixingSpeed">
+                    Mengsnelheid
+                    <input type="number" name="mixingSpeed" id="mixingSpeed" value="1" min="1" step=".1">
+                </label>
+                <label for="hall">
+                    Which hall?
+                    <select name="hall" id="hall">
+                        <option value="1" checked>Hall 1</option>
+                        <option value="2">Hall 2</option>
+                    </select>
+                </label>
+                <div class="input-group ml-auto">
+                    <button type="button" popovertarget="mixers-popover" popovertargetaction="hide"
+                        class="alt">Close</button>
+                    <button type="reset" popovertarget="mixers-popover" popovertargetaction="hide"
+                        class="danger">Discard & Close</button>
+                    <button type="submit" popovertarget="mixers-popover" popovertargetaction="hide">Create</button>
+                </div>
+            </form>
+        </div>
     </dialog>
 
+    <dialog id="triadic-popover" popover>
+        <!-- 115, 255, 59 -->
+        <div class="dialog-content">
+            <h1>Triadic colors</h1>
+            <div class="triadic-content">
+
+            </div>
+            <button popovertarget="triadic-popover" popovertargetaction="hide">Close</button>
+        </div>
+    </dialog>
+
+    <div id="list-errors">
+    </div>
 </body>
 
 </html>

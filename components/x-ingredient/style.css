@@ -1,22 +1,22 @@
 x-ingredient {
     --background-color: rgb(255, 0, 0);
     display: block;
-    height: 70px;
-    width: 70px;
+    aspect-ratio: 1/1;
     background-color: var(--background-color);
-    background-size: 25%;
     border-radius: 10px;
+    background-size: 100%;
+    position: relative;
+    animation: pop-in 300ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: clamp(80px, 100%, 100px);
 
     &[texture=grainy] {
         background-image: url('/assets/svg/textures/grainy.svg');
     }
     &[texture=coarse_grainy] {
         background-image: url('/assets/svg/textures/coarse_grainy.svg');
-        background-size: 50%;
     }
 
     &[texture=viscous] {
         background-image: url('/assets/svg/textures/viscous.svg');
-        background-size: 100%;
     }
 }

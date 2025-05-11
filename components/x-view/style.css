@@ -1,5 +1,6 @@
-x-view {
-    &[visible="false"] {
-        display: none;
-    }
+x-view[visible=false] {
+    /* opacity: 0;
+    position: absolute;
+    pointer-events: none; */
+    display: none;
 }
