@@ -1,8 +1,6 @@
 @import "./reset.css";
-/* @import "./variables.css"; */
-/* @import "./layouts.css"; */
-/* @import "./inputs.css"; */
-/* @import "./colorpicker.css"; */
+@import "./animations.css";
+@import "./inputs.css";
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -44,21 +42,6 @@ body {
             display: none;
         }
     }
-}
-
-@keyframes fade-out {
-    from {
-        display: block;
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-.cube {
-    background-color: red;
 }
 
 form {
@@ -116,6 +99,7 @@ form {
     margin-top: 12px;
     width: clamp(100px, 80%, 1200px);
 }
+
 .list-mixers {
     display: flex;
     flex-wrap: wrap;
@@ -162,37 +146,10 @@ form {
 
 }
 
-@keyframes error-fade-in {
-    from {
-        opacity: 0;
-        transform: translate(0, 100%);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes error-fade-out {
-    from {
-        opacity: 1;
-        transform: translate(0, 0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translate(0, 100%);
-    }
-}
-
 .workspace {
     display: flex;
     flex-direction: column;
     margin: 12px;
-    /* display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr)); */
     gap: 12px;
 
     x-view[group=workspace][name=testing][visible=true] {
@@ -276,19 +233,6 @@ dialog {
     }
 }
 
-@keyframes dialog-entry {
-    from {
-        transform: translate(-50%, -50%) scale(.9);
-        opacity: 0;
-    }
-
-    to {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-    }
-}
-
-
 *:has(> .tooltip) {
     position: relative;
 
@@ -364,17 +308,6 @@ dialog {
     margin-right: auto;
 }
 
-@keyframes pop-in {
-    from {
-        transform: scale(0.7);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
 #weather-station {
     display: flex;
     flex-direction: column;
@@ -386,6 +319,7 @@ dialog {
         margin-top: 8px;
         margin-bottom: 4px;
     }
+
     #weather-location-subtext {
         margin-top: 4px;
         font-size: 14px;
@@ -393,6 +327,7 @@ dialog {
         font-style: italic;
         margin-bottom: 24px;
     }
+
     x-view[group=temperature] {
         font-size: 24px;
         font-weight: bold;
@@ -424,11 +359,13 @@ dialog {
         flex-direction: column;
         gap: 12px;
     }
+
     .triadic-content {
         display: flex;
         gap: 12px;
         margin-bottom: 12px;
     }
+
     .color-card {
         display: flex;
         flex-direction: column;
@@ -437,15 +374,18 @@ dialog {
         border-radius: 12px;
         padding: 12px;
     }
+
     .color-preview {
         height: 120px;
         width: 120px;
         background-color: var(--background-color);
         border-radius: 7px;
     }
+
     .color-info {
         margin-top: 8px;
     }
+
     .info-header {
         font-weight: bold;
         font-size: 16px;
@@ -455,6 +395,7 @@ dialog {
             margin-top: 8px;
         }
     }
+
     .info-text {
         margin-top: -4px;
         opacity: .5;

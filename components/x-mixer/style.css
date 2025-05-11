@@ -72,34 +72,3 @@ x-mixer {
         }
     }
 }
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes shake {
-    0% { translate: 0; }
-    10% { translate: -5px; }
-    20% { translate: 5px; }
-    30% { translate: -5px; }
-    40% { translate: 5px; }
-    50% { translate: -5px; }
-    60% { translate: 5px; }
-    70% { translate: -5px; }
-    80% { translate: 5px; }
-    90% { translate: -5px; }
-    100% { translate: 0; }
-}
-
-@keyframes burn {
-    0% { translate: 0; }
-    25% { translate: -1px; }
-    50% { translate: 1px; }
-    75% { translate: -1px; }
-    100% { translate: 0; }
-}
