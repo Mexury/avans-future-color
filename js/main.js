@@ -39,6 +39,7 @@ document.addEventListener('weather:updated', e => {
 })
 WeatherStation.location = '\'s-Hertogenbosch';
 
+const closeTriadicDialogButton = document.getElementById('close-triadic-dialog');
 const showHallOneButton = document.getElementById('show-hall-1');
 const showHallTwoButton = document.getElementById('show-hall-2');
 const createBucketButton = document.getElementById('create-bucket');
@@ -52,6 +53,11 @@ const createBucket = () => {
     lists.BUCKETS.appendChild(bucketElement);
 }
 
+const closeTriadicDialog = () => {
+    document.getElementById('triadic-dialog').close();
+}
+
+closeTriadicDialogButton.addEventListener('click', closeTriadicDialog);
 showHallOneButton.addEventListener('click', () => toggleIngredientCreation(false));
 showHallTwoButton.addEventListener('click', () => toggleIngredientCreation(true));
 createBucketButton.addEventListener('click', createBucket);

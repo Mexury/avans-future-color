@@ -44,8 +44,9 @@ export default class TestingWorkspace {
                         const color = colorspace === 'rgb' ? new RGBColor(...values).toHSL() : new HSLColor(...values);
                         const triadicColors = color.getTriadicColors();
                         
-                        const modal = document.getElementById('triadic-popover');
-                        const content = modal.querySelector('.dialog-content .triadic-content');
+                        const modal = document.getElementById('triadic-dialog');
+                        modal.close();
+                        const content = modal.querySelector('.triadic-content');
 
                         while (content.lastChild) {
                             content.lastChild.remove();
@@ -82,7 +83,26 @@ export default class TestingWorkspace {
                             content.append(card);
                         });
 
-                        modal.showPopover();
+                        const rects = {
+                            tile: tile.getBoundingClientRect(),
+                            modal: modal.getBoundingClientRect()
+                        };
+
+                        let x = rects.tile.left + rects.tile.width / 2;
+                        let y = rects.tile.top + rects.tile.height / 2;
+
+                        if (x + rects.modal.width > window.innerWidth) {
+                            x = rects.tile.right - rects.modal.width;
+                            if (x < 0) x = 0;
+                        }
+                        if (y + rects.modal.height > window.innerHeight) {
+                            y = rects.tile.bottom - rects.modal.height;
+                            if (y < 0) y = 0;
+                        }
+
+                        modal.style.setProperty('--top', `${y}px`);
+                        modal.style.setProperty('--left', `${x}px`);
+                        modal.show();
                     }
                 });
                 testingGrid.append(tile);

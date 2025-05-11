@@ -230,6 +230,7 @@ dialog {
         border-radius: 12px;
         color: white;
         animation: dialog-entry 400ms ease;
+        box-shadow: 0 4px 8px -5px rgba(0, 0, 0, .25);
     }
 }
 
@@ -352,18 +353,37 @@ dialog {
     }
 }
 
-#triadic-popover {
-
-    .dialog-content {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
+:has(x-view[name=testing][group=workspace][visible=false]) {
+    #triadic-dialog[open] {
+        display: none;
     }
+}
+
+#triadic-dialog {
+    all: unset;
+
+    &:not([open]) {
+        display: none;
+    }
+    
+    position: absolute;
+    background-color: #222222;
+    border: 1px solid #3d3d3d;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    animation: dialog-entry 400ms ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    top: var(--top, 0);
+    left: var(--left, 0);
+    box-shadow: 0 4px 8px -5px rgba(0, 0, 0, .25);
+    transform: translate(-50%, -50%);
 
     .triadic-content {
         display: flex;
         gap: 12px;
-        margin-bottom: 12px;
     }
 
     .color-card {
@@ -400,4 +420,5 @@ dialog {
         margin-top: -4px;
         opacity: .5;
     }
+    
 }
