@@ -70,25 +70,9 @@ export default class Bucket extends HTMLElement {
 	 * @returns {Ingredient?}
 	 */
 	getSlowestIngredient() {
-		if (this.#ingredients.length < 1) {
-			return null;
-		}
-
-		/** @type {Ingredient?} */
-		let slowestIngredient = null;
-		/** @type {number} */
-		let slowestTime = 0;
-
-		for (const ingredient of this.#ingredients) {
-			slowestTime = Math.max(slowestTime, ingredient.mixingTime);
-			if (ingredient.mixingTime > slowestTime || !slowestIngredient) {
-				slowestIngredient = ingredient;
-				slowestTime = ingredient.mixingTime;
-			} else {
-				continue;
-			}
-		}
-		return slowestIngredient;
+		return this.ingredients.reduce((slowestIngredient, ingredient) => {
+			return ingredient.mixingTime > slowestIngredient.mixingTime ? ingredient : slowestIngredient;
+		});
 	}
 
 	/**
@@ -123,9 +107,7 @@ export default class Bucket extends HTMLElement {
 		}
 	}
 
-	/**
-	 * Private internal function for updating the tooltip based on set conditions
-	 */
+	// eslint-disable-next-line jsdoc/require-jsdoc
 	#updateTooltip() {
 		const tooltip = this.querySelector('.tooltip');
 		if (tooltip) {
@@ -174,9 +156,9 @@ export default class Bucket extends HTMLElement {
 			}
 			if (this.#ingredients.length >= 1) {
 				data.push({
-					title: 'Slowest speed',
+					title: 'Slowest time',
 					icon: 'forward',
-					values: this.getSlowestIngredient().mixingSpeed
+					values: this.getSlowestIngredient().mixingTime
 				});
 			}
 		}
@@ -186,9 +168,7 @@ export default class Bucket extends HTMLElement {
 		this.appendChild(generateTooltip([ ...data ]));
 	}
 
-	/**
-	 * Private internal function to update colors based on set conditions
-	 */
+	// eslint-disable-next-line jsdoc/require-jsdoc
 	#updateColors() {
 		this.#updateTooltip();
 		if (this.#isMixed) {

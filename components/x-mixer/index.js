@@ -45,10 +45,8 @@ export default class Mixer extends HTMLElement {
 		super();
 	}
 
-	/**
-	 * Private internal function to update tooltip based on set conditions
-	 */
-	#updateTooltip() {
+	// eslint-disable-next-line jsdoc/require-jsdoc
+	updateTooltip() {
 		const tooltip = this.querySelector('.tooltip');
 		if (tooltip) {
 			tooltip.remove();
@@ -96,7 +94,7 @@ export default class Mixer extends HTMLElement {
 
 	// eslint-disable-next-line jsdoc/require-jsdoc
 	#updateColors() {
-		this.#updateTooltip();
+		this.updateTooltip();
 		this.style.setProperty('--color-one', this.#bucket?.ingredients[0] ? `${this.#bucket.ingredients[0].color.colorspace}(${this.#bucket.ingredients[0].color})` : 'transparent');
 		this.style.setProperty('--color-two', this.#bucket?.ingredients[1] ? `${this.#bucket.ingredients[1].color.colorspace}(${this.#bucket.ingredients[1].color})` : 'transparent');
 		this.style.setProperty('--color-three', this.#bucket?.ingredients[2] ? `${this.#bucket.ingredients[2].color.colorspace}(${this.#bucket.ingredients[2].color})` : 'transparent');
@@ -114,8 +112,7 @@ export default class Mixer extends HTMLElement {
                     <path d="M186.129 222.051C178.723 229.75 190.047 229.054 197.618 224.295C216.53 212.409 252.635 240.457 252.103 267.016C251.401 302.048 209.281 325.82 167.162 303.299C122.234 279.277 128.552 206.613 161.546 187.846C129.254 224.129 141.968 270.421 176.288 282.933C196.632 290.349 217.771 283.258 227.519 273.125C234.925 265.426 223.602 266.122 216.031 270.881C197.119 282.767 162.418 267.579 162.95 241.02C163.652 205.988 215.115 183.782 257.235 206.303C302.162 230.325 285.096 288.563 252.103 307.33C284.394 271.047 270.474 234.563 236.154 222.051C215.81 214.635 195.878 211.918 186.129 222.051Z" fill="var(--color-two, 'transparent')"/>
                     <path d="M179.872 267.082C188.05 273.986 187.31 263.43 182.255 256.372C169.628 238.741 185.763 206.391 213.978 206.887C251.194 207.541 282.152 252.229 258.227 291.495C232.707 333.379 150.787 317.233 143.534 290C194.76 303.15 231.257 308.251 244.549 276.257C252.428 257.291 244.058 247.65 233.294 238.562C225.115 231.658 223.252 250.443 228.307 257.501C240.935 275.132 228.238 289.187 200.022 288.691C162.806 288.036 130.942 246.153 154.867 206.887C180.387 165.004 250.53 174.82 270.467 205.578C217.88 189.028 182.743 187.327 169.452 219.321C161.573 238.287 169.107 257.994 179.872 267.082Z" fill="var(--color-three, 'transparent')"/>
                 </g>
-            </svg>
-        `
+            </svg>`
 		);
 
 		this.addEventListener('dragover', e => {
