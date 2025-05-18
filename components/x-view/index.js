@@ -1,38 +1,37 @@
 export default class View extends HTMLElement {
 
-    /** @type {boolean} */
-    #visible = false;
+	/** @type {boolean} */
+	#visible = false;
 
-    get visible() {
-        return this.#visible;
-    }
+	get visible() {
+		return this.#visible;
+	}
 
-    set visible(value) {
-        this.#visible = value;
-        this.setAttribute('visible', value);
-        this.setAttribute('aria-hidden', !value);
-    }
+	set visible(value) {
+		this.#visible = value;
+		this.setAttribute('visible', value);
+		this.setAttribute('aria-hidden', !value);
+	}
 
-    constructor() {
-        super();
-    }
+	// eslint-disable-next-line jsdoc/require-jsdoc
+	constructor() {
+		super();
+	}
 
-    show() {
-        this.visible = true;
-    }
+	// eslint-disable-next-line jsdoc/require-jsdoc
+	show() {
+		this.visible = true;
+	}
 
-    hide() {
-        this.visible = false;
-    }
+	// eslint-disable-next-line jsdoc/require-jsdoc
+	hide() {
+		this.visible = false;
+	}
 
-    connectedCallback() {
-        this.visible = ['true', 'false'].includes(this.getAttribute('visible')?.toLowerCase()) ? this.getAttribute('visible').toLowerCase() : false;
-    }
-
-    disconnectedCallback() {
-
-    }
-    
+	// eslint-disable-next-line jsdoc/require-jsdoc
+	connectedCallback() {
+		this.visible = [ 'true', 'false' ].includes(this.getAttribute('visible')?.toLowerCase()) ? this.getAttribute('visible').toLowerCase() : false;
+	}
 }
 
 customElements.define('x-view', View);

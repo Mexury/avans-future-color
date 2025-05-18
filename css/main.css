@@ -93,7 +93,6 @@ form {
 
 #list-ingredients {
     display: flex;
-    /* grid-template-columns: repeat(5, 1fr); */
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 12px;
@@ -109,7 +108,7 @@ form {
 }
 
 #list-errors {
-    position: absolute;
+    position: fixed;
     bottom: 12px;
     left: 50%;
     transform: translate(-50%, 0);
@@ -118,6 +117,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    z-index: 9999;
 
     .error {
         background-color: #ff0c284c;
@@ -128,7 +128,6 @@ form {
         z-index: 9999;
         backdrop-filter: blur(8px);
         transition: bottom 300ms ease-in-out;
-        /* transform-origin: center bottom; */
         position: absolute;
         bottom: var(--bottom, 0);
         left: 0;
